@@ -1,2 +1,11 @@
 # ulMeinBot
-Telebot for viewing weather, exchange rates. May be will added func e.g yt_dlp, steam trade profit calc
+Телеграм бот для просмотра погоды, курса btc, usd.
+
+В планах дополнить функцией загрузки файлов с youtube в нескольких форматах на выбор.
+Дополнить уже существующим калькулятором профита для торговой площадки steam.
+
+
+Токены используются из файла auth.py, вида:
+
+open_weather_token = "<TOKEN>"
+tg_bot_token = "<TOKEN>"
