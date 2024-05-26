@@ -3,14 +3,14 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 import requests
 import datetime
-from auth import open_weather_token
+from auth import open_weather_token, open_exchange_token
 from create_bot import dp, bot
 from data_base import sqlite_db
 from keyboards import kb_user
 from keyboards import kb_debug
 
 import datetime
-import pprint
+import logging
 
 time_now = datetime.datetime.now().strftime('%d-%m-%Y %H:%M')
 
@@ -133,7 +133,8 @@ async def get_tomorrow_weather(message: types.Message):
     '''
     try:
         format = '%t+%h+%P+%w+%S+%s'
-        r = requests.get(f'http://wttr.in/{user_city}?format={format}').text.split()
+        weather_request = requests.get(
+            f'http://wttr.in/{user_city}?format={format}').text.split()
 
 
         await message.answer(f'***Погода на завтра***\n'
@@ -146,13 +147,11 @@ async def get_currency(message: types.Message):
         response = requests.get(url='https://yobit.net/api/3/ticker/btc_usd')
         data_btc = response.json()
         btc_price = f"BTC: {round(data_btc.get('btc_usd').get('last'), 2)}$"
-        # print(btc_price)
 
         response_usd = requests.get(
-            url='https://openexchangerates.org/api/latest.json?app_id=9ebb488be80d411489043826b0e07389&base=USD&symbols=RUB').json()
+            url = f'https://openexchangerates.org/api/latest.json?app_id={open_exchange_token}&base=USD&symbols=RUB').json()
         data_usdrub = response_usd['rates']['RUB']
         usdrub_price = f"USD: {round(data_usdrub, 2)}₽"
-        # print(usdrub_price)
 
         await message.answer(f'Текущий курс валют:\n\U0001FA99{btc_price}\n\U0001F4B5{usdrub_price}')
     except Exception as ex:
