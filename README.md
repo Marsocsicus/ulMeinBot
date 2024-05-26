@@ -8,4 +8,5 @@
 Токены используются из файла auth.py, вида:
 
 open_weather_token = "<TOKEN>"
+open_exchange_token = "<TOKEN>"
 tg_bot_token = "<TOKEN>"
